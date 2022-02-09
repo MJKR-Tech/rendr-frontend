@@ -26,7 +26,7 @@ useEffect(() => {showButton()}, []);
     <>
         <nav className='navbar'>
             <div className='navbar-container'>
-                <Link to='/' className='navbar-logo'>
+                <Link to='/' className='navbar-logo' onClick={closeMobileMenu}>
                     RENDR <i class='fa-solid fa-diagram-project'/>
                 </Link>
                 <div className='menu-icon' onClick={handleClick}>
