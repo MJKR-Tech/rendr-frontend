@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { Button, Form, FormGroup, Input, Label, Card, CardBody } from 'reactstrap';
-import axios from 'axios';
 
 function CheckForm(props) {
 
@@ -11,29 +10,35 @@ function CheckForm(props) {
     var inner = props.file ? Object.getOwnPropertyNames(props.file["body"])[0] : ""
 
     const onSubmit = data => {
+            // console.log(data)
         for (const [key, value] of Object.entries(data)) {
-            var index = props.file["body"][inner].columns.findIndex(x => x.name === key)
+            var index = props.file["body"][inner].columns.findIndex(x => x.name == key)
             props.file["body"][inner].columns[index].isSelected = value
         }
-        console.log(props.file)
-
-        axios.post("http://localhost:8080/loadSampleData", JSON.stringify(props.file), {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/octet-stream',
-                'Content-Type': 'application/json'
-            },
-            responseType: 'blob', // important
-
-        }).then((response) => {
-            const url = window.URL.createObjectURL(new Blob([response.data]));
-            const link = document.createElement('a');
-            link.href = url;
-            link.setAttribute('download', `${inner}.xlsx`);
-            document.body.appendChild(link);
-            link.click();
-        });
+        xhr.send(props.file);
     }
+
+    var url = "https://localhost:3000/post/json";
+
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", url);
+
+    xhr.setRequestHeader("Accept", "application/json");
+    xhr.setRequestHeader("Content-Type", "application/json");
+
+    xhr.onreadystatechange = function () {
+    if (xhr.readyState === 4) {
+        console.log(xhr.responseText);
+    }};
+
+    var data = `{
+    "Id": 78912,
+    "Customer": "Jason Sweet",
+    "Quantity": 1,
+    "Price": 18.00
+    }`;
+
+    console.log(props.file)
 
     if (props.list) {
         return (
