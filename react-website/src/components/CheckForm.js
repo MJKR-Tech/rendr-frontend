@@ -7,10 +7,14 @@ function CheckForm(props) {
 
     const [postId, setPostId] = useState(null);
     const { register, handleSubmit, reset, formState: { errors } } = useForm();
-    const site = "http://localhost:8080/loadSampleData";
+    
+    const baseSite = "http://localhost:8080";
+    const apiPath = "/api/v1";
+    const generatePath = "/generateData";
+    const generateURL = baseSite + apiPath + generatePath;
 
     const submitForm = (json, outputFilename) => {
-        axios.post(site, json, {
+        axios.post(generateURL, json, {
             method: 'POST',
             headers: {
                 'Accept': 'application/octet-stream',
