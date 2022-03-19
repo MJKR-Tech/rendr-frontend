@@ -17,11 +17,6 @@ function App() {
           <Route path='/howtouse' component={HowToUse}/>
         </Switch>
       </Router>
-        {/* <div className="App">
-          <Upload>
-            <button>Upload Files</button>
-          </Upload>
-        </div> */}
     </>
   );
 }
