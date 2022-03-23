@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from './Button';
+import {NavItem, Navbar, NavbarBrand, NavbarToggler, Nav, NavLink, Collapse, UncontrolledDropdown, DropdownToggle, DropdownMenu, DropdownItem} from 'reactstrap';
 import './Navbar.css';
 
-function Navbar() {
+function Navigation() {
     const [click, setClick] = useState(false);
     const[button, setButton] = useState(true);
+    const [toggle, setToggle] = useState(false);
+
+    const handleToggle = () => setToggle(!toggle);
 
     const handleClick = () => setClick(!click);
     const closeMobileMenu = () => setClick(false);
@@ -25,8 +29,8 @@ useEffect(() => {showButton()}, []);
     return (
     <>
         <nav className='navbar'>
-            <div className='navbar-container'>
-                <Link to='/' className='navbar-logo' onClick={closeMobileMenu}>
+            <div className='navbar-container'>           
+                <Link to='/' className='navbar-logo, link' onClick={closeMobileMenu}>
                     RENDR <i class='fa-solid fa-diagram-project'/>
                 </Link>
                 <div className='menu-icon' onClick={handleClick}>
@@ -55,4 +59,4 @@ useEffect(() => {showButton()}, []);
     )
 }
 
-export default Navbar
+export default Navigation

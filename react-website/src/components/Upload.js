@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Container } from 'reactstrap'
+import { Container, Button } from 'reactstrap'
 import CheckForm from "./CheckForm";
 
 function Upload({ children }) {
@@ -82,14 +82,25 @@ function Upload({ children }) {
     }
   };
 
-  return (
-    <Container>
-      <h1 style={{color:"white"}}>Data Upload</h1>
-      <input style={{color:"white"}}type="file" multiple onChange={uploadFiles} />
-      <br></br>
-      <CheckForm dataArr={dataArr} isUploadSuccessful={isUploadSuccessful} isAttemptingUpload={isAttemptingUpload}/>
-    </Container>
-  );
+  if (!isUploadSuccessful) {
+    return (
+      <div className="wrapper">
+        <div className="file-upload">
+          <input type="file" multiple onChange={uploadFiles} />
+          <i className="fa-solid fa-arrow-up-from-bracket" />
+        </div>
+        <br></br>
+        <CheckForm dataArr={dataArr} isUploadSuccessful={isUploadSuccessful} isAttemptingUpload={isAttemptingUpload}/>
+      </div>
+    );
+  } else {
+    return (
+      <div className="container">
+        <CheckForm dataArr={dataArr} isUploadSuccessful={isUploadSuccessful} isAttemptingUpload={isAttemptingUpload}/>
+      </div>
+    );
+  }
+  
 };
 
 export default Upload;

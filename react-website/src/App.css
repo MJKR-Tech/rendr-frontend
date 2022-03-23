@@ -16,6 +16,148 @@
   font-size: 3rem;
 }
 
+.rendr-background {
+  background: url('/images/BG1.jpg'); 
+  height: calc(100vh - 10px);
+  margin-top: -70px;
+  background-size: cover;
+  top: 0;
+}
+
+.outer-container {
+  padding-top: 72px;
+}
+
+.container {
+  max-width: 70vw;
+  height: 100%;
+  display: flex;
+  justify-content: left;
+  align-items: center;
+}
+
+.wrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: left;
+}
+.file-upload2 {
+  border-radius: 10px;
+  padding: 5px 2px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  background-image: linear-gradient(to bottom, #459ec4 50%, #fff 50%);
+  background-size: 100% 200%;
+  transition: all 1s;
+  color: #fff;
+  font-size: 20px;
+  text-align: center;
+}
+.file-upload2 input[type='file'] {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+.file-upload2:hover {
+  background-position: 0 -100%;
+  color: #459ec4;
+}
+
+.wrapper .file-upload {
+  height: 200px;
+  width: 200px;
+  margin-left: 18vw;
+  margin-top: 0;
+  border-radius: 100px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 4px solid #fff;
+  overflow: hidden;
+  background-image: linear-gradient(to bottom, #459ec4 50%, #fff 50%);
+  background-size: 100% 200%;
+  transition: all 1s;
+  color: #fff;
+  font-size: 100px;
+  text-align: center;
+}
+.wrapper .file-upload input[type='file'] {
+  height: 200px;
+  width: 200px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+.wrapper .file-upload:hover {
+  background-position: 0 -100%;
+  color: #459ec4;
+}
+
+.message {
+  margin: 5px 40px;
+  color: #474747;
+}
+
+@media screen and (max-width: 960px) {	
+
+  .wrapper {
+    justify-content: center;
+    margin: 0;
+  }
+
+  .wrapper .file-upload {
+    height: 175px;
+    width: 175px;
+    /* margin-left: 18vw; */
+    margin: 0;
+    border-radius: 100px;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 4px solid #fff;
+    overflow: hidden;
+    background-image: linear-gradient(to bottom, #459ec4 50%, #fff 50%);
+    background-size: 100% 200%;
+    transition: all 1s;
+    color: #fff;
+    font-size: 50px;
+    text-align: center;
+  }
+  .wrapper .file-upload input[type='file'] {
+    height: 175px;
+    width: 175px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    cursor: pointer;
+  }
+
+  .message {
+    margin: 5px 20px;
+    color: #474747;
+
+  }
+
+  .container {
+    max-width: 100vw;
+    margin-left: auto;
+    justify-content: center;
+  }
+}
+
+
 /* .services {
   background-image: url('/images/img-2.jpg');
   background-position: center;

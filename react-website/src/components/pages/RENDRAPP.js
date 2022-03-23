@@ -6,10 +6,13 @@ import Upload from '../Upload';
 function RENDRAPP() {
   return (
     <>
-        <video src='/videos/video-1.mp4' autoPlay muted loop />
-        <Upload>
-            <button>Upload Files</button>
-        </Upload>
+      <div className="rendr-background">
+        {/* <Container className="outer-container"> */}
+          <Upload>
+              {/* <button>Upload Files</button> */}
+          </Upload>
+        {/* </Container> */}
+      </div>
     </>
   )
 }
