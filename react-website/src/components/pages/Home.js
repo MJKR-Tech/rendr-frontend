@@ -1,13 +1,16 @@
-import React from 'react'
+import React from 'react';
 import '../../App.css';
-import FunctionSection from '../FunctionSection';
+import { Container, Form } from 'reactstrap'
+import Upload from '../Upload';
 
 function Home() {
-    return (
-        <>
-            <FunctionSection/>
-        </>
-    )
+  return (
+    <>
+        <Upload>
+            <button>Upload Files</button>
+        </Upload>
+    </>
+  )
 }
 
-export default Home;
+export default Home
