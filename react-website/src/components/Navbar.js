@@ -34,13 +34,13 @@ useEffect(() => {showButton()}, []);
                 </div>
                 <ul className={click ? 'nav-menu active' : 'nav-menu'}>
                     <li className='nav-item'>
-                        <Link to='/' className='nav-links' onClick={closeMobileMenu}>
+                        <Link to='/home' className='nav-links' onClick={closeMobileMenu}>
                             Home
                         </Link>
                     </li>
                     <li className='nav-item'>
-                        <Link to='/howtouse' className='nav-links' onClick={closeMobileMenu}>
-                            How to use
+                        <Link to='/' className='nav-links' onClick={closeMobileMenu}>
+                            RENDR APP
                         </Link>
                     </li>
                     <li className='nav-item'>

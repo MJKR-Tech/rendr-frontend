@@ -2,9 +2,9 @@ import React from 'react';
 import Navbar from './components/Navbar';
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 import './App.css';
-import Home from "./components/pages/Home";
+import RENDRAPP from "./components/pages/RENDRAPP";
 import AboutUs from './components/pages/AboutUs';
-import HowToUse from './components/pages/HowToUse';
+import Home from './components/pages/Home';
 
 function App() {
   return (
@@ -12,9 +12,9 @@ function App() {
       <Router>
         <Navbar/>
         <Switch>
-          <Route path='/' exact component = {Home} />
+          <Route path='/Home' component={Home}/>
+          <Route path='/' exact component = {RENDRAPP} />
           <Route path='/aboutus' component={AboutUs}/>
-          <Route path='/howtouse' component={HowToUse}/>
         </Switch>
       </Router>
     </>
