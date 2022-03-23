@@ -14,8 +14,8 @@ function CheckForm(props) {
     
     const baseSite = "http://localhost:8080";
     const apiPath = "/api/v1";
-    const generatePath = "/generateData";
-    const generateURL = baseSite + apiPath + generatePath;
+    const generateURL = baseSite + apiPath + "/generateData";
+    const templateURL = baseSite + apiPath + "/uploadTemplate";
 
     const submitForm = (json, outputFilename) => {
         axios.post(generateURL, json, {
@@ -36,8 +36,9 @@ function CheckForm(props) {
         });
     };
 
-    const submitTemplate = (template) => {
-        axios.post(generateURL, template, {
+    const submitTemplate = (file) => {
+        console.log(file)
+        axios.post(templateURL, file, {
             method: 'POST',
             headers: {
                 'Accept': 'application/octet-stream',
@@ -114,14 +115,16 @@ function CheckForm(props) {
         setTemplates({});
 
         try {
-            let templates = await updateData(event.target.files);
-            console.log(templates);
-            setTemplates(templates);
+            // let template = await updateData(event.target.files);
+            console.log(event.target.files);
+            setTemplates(event.target.files);
+            submitTemplate(event.target.files)
       
           } catch (error) {
             console.error(error);
             setTemplates({}); // reset back
           }
+        
     };
 
     function onSubmit(formData) {
