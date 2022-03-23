@@ -84,8 +84,8 @@ function Upload({ children }) {
 
   return (
     <Container>
-      <h1>Data Upload</h1>
-      <input type="file" multiple onChange={uploadFiles} />
+      <h1 style={{color:"white"}}>Data Upload</h1>
+      <input style={{color:"white"}}type="file" multiple onChange={uploadFiles} />
       <br></br>
       <CheckForm dataArr={dataArr} isUploadSuccessful={isUploadSuccessful} isAttemptingUpload={isAttemptingUpload}/>
     </Container>

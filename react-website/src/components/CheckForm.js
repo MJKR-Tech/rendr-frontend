@@ -113,13 +113,13 @@ function CheckForm(props) {
     } else {
         // !props.isAttemptingUpload --> just visited page
         return (
-            <Card>
-            <CardBody>
-                <h2>
-                    Welcome! Upload your files above.
-                </h2>
-            </CardBody>
-        </Card>
+                <Card>
+                    <CardBody>
+                        <h2>
+                            Welcome! Upload your files above.
+                        </h2>
+                    </CardBody>
+                </Card>
         );
     };
 };

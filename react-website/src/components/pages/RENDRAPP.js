@@ -6,6 +6,7 @@ import Upload from '../Upload';
 function RENDRAPP() {
   return (
     <>
+        <video src='/videos/video-1.mp4' autoPlay muted loop />
         <Upload>
             <button>Upload Files</button>
         </Upload>
@@ -13,4 +14,4 @@ function RENDRAPP() {
   )
 }
 
-export default RENDRAPP
+export default RENDRAPP;
