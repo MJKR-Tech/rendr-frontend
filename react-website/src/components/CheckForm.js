@@ -14,6 +14,7 @@ function CheckForm(props) {
     const apiPath = "/api/v1";
     const generatePath = "/generateData";
     const generateURL = baseSite + apiPath + generatePath;
+    const newTemplates = [];
     const templates = [
         {
             "templateId": 2,
@@ -51,6 +52,19 @@ function CheckForm(props) {
         });
     };
 
+    const getForm = () => {
+        let getURL = baseSite + apiPath + "/getTemplates";
+        axios.get(getURL)
+        .then((res) => {
+            console.log(res.data);
+            newTemplates.push(res.data);
+            templates = newTemplates;
+            newTemplates = []; // reset
+        }).catch((err) => {
+            console.log(err);
+        });
+    };
+     
     // const submitTemplate = (template) => {
     //     axios.post(generateURL, template, {
     //         method: 'POST',
@@ -84,6 +98,7 @@ function CheckForm(props) {
         console.log(newDataArr);
         setSubmitted(true);
         submitForm(newDataArr, filename);
+        getForm();
     };
 
     function JsonNames(data) {
