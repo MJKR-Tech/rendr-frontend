@@ -1,21 +1,36 @@
 import React, { useState, useEffect } from 'react';
 import {Link} from 'react-router-dom';
-import { useForm } from 'react-hook-form';
-import { Button, Form, FormGroup, Input, Label, Card, CardBody } from 'reactstrap';
+import { Button, Form, FormGroup, Input, Label, Card, CardBody, CardHeader } from 'reactstrap';
 import axios from 'axios';
 
 function CheckForm(props) {
 
     // const [postId, setPostId] = useState(null);
-    const [templates, setTemplates] = useState();
-    const { register, handleSubmit, reset, formState: { errors } } = useForm();
+    const [template, setTemplate] = useState(false);
     const [submitted, setSubmitted] = useState(false);
-    const [isUploadSuccessful, setIsUploadSuccessful] = useState(true);
+    // const [isUploadSuccessfulJ, setisUploadSuccessfulJ] = useState(true);
     
     const baseSite = "http://localhost:8080";
     const apiPath = "/api/v1";
-    const generateURL = baseSite + apiPath + "/generateData";
-    const templateURL = baseSite + apiPath + "/uploadTemplate";
+    const generatePath = "/generateData";
+    const generateURL = baseSite + apiPath + generatePath;
+    const templates = [
+        {
+            "templateId": 2,
+            "templateName": "Complex_2",
+            "dateCreated": "2022-03-24"
+        },
+        {
+            "templateId": 3,
+            "templateName": "Complex_3",
+            "dateCreated": "2022-03-22"
+        },
+        {
+            "templateId": 4,
+            "templateName": "Complex_4",
+            "dateCreated": "2022-03-21"
+        }
+    ];
 
     const submitForm = (json, outputFilename) => {
         axios.post(generateURL, json, {
@@ -36,96 +51,23 @@ function CheckForm(props) {
         });
     };
 
-    const submitTemplate = (file) => {
-        console.log(file)
-        axios.post(templateURL, file, {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/octet-stream',
-                'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-            },
-            responseType: 'application/json',
-        }).then((response) => {
-            let res = JSON.parse(response).result
-            if (res == "true") {
-                setIsUploadSuccessful(true)
-            } else {
-                setIsUploadSuccessful(false)
-            }
-        })
-    }
-
-    // const validateFile = (file) => {
-    //     var parts = file.name.split(".");
-    //     if (parts[parts.length - 1].subString(0, 3) !== "xls") {
-    //       throw "Invalid file type fed. Please upload a valid *.json file."
-    //     };
-    //   };
-
-    // const generateDatum = (result) => {
-    //     let jsonBody = JSON.parse(result).body;
-    //     let jsonName = Object.getOwnPropertyNames(jsonBody)[0];
-    //     let jsonData = jsonBody[jsonName];
-        
-    //     return {
-    //       "name": jsonName,
-    //       "data": {
-    //         "headers": jsonData.columns,
-    //         "rows": jsonData.rows
-    //     }};
-    //   };
-
-    // const readUploadedFileAsText = (inputFile) => {
-    //     const temporaryFileReader = new FileReader();
-      
-    //     return new Promise((resolve, reject) => {
-    //       temporaryFileReader.onerror = () => {
-    //         temporaryFileReader.abort();
-    //         reject(new DOMException("Problem parsing input file."));
-    //       };
-      
-    //       temporaryFileReader.onload = () => {
-    //         resolve(temporaryFileReader.result);
-    //       };
-    //       temporaryFileReader.readAsText(inputFile);
-    //     });
-    //   };
-
-    // const generateDataArr = async (files) => {
-    //     var templates = {};
-    //     for (var i = 0; i < files.length; i++) {
-    //       var file = files[i];
-    //       validateFile(file);
-    //       var readData = await readUploadedFileAsText(file);
-    //       var datum = generateDatum(readData);
-    //       templates[datum.name] = datum.data;
-    //     };
-    //     return templates;
-    //   };
-
-    const updateData = async (files) => {
-        let templates = files;
-        if (Object.keys(templates).length === 0) {
-          throw "Data fed is empty."; 
-        }
-        return templates;
-      };
-
-    const uploadTemplates = async (event) => {
-        setTemplates({});
-
-        try {
-            // let template = await updateData(event.target.files);
-            console.log(event.target.files);
-            setTemplates(event.target.files);
-            submitTemplate(event.target.files)
-      
-          } catch (error) {
-            console.error(error);
-            setTemplates({}); // reset back
-          }
-        
-    };
+    // const submitTemplate = (template) => {
+    //     axios.post(generateURL, template, {
+    //         method: 'POST',
+    //         headers: {
+    //             'Accept': 'application/octet-stream',
+    //             'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    //         },
+    //         responseType: 'application/json',
+    //     }).then((response) => {
+    //         let res = JSON.parse(response).result
+    //         if (res == "true") {
+    //             setisUploadSuccessfulJ(true)
+    //         } else {
+    //             setisUploadSuccessfulJ(false)
+    //         }
+    //     })
+    // }
 
     function onSubmit(formData) {
         let filename = "Sample";
@@ -144,81 +86,117 @@ function CheckForm(props) {
         submitForm(newDataArr, filename);
     };
 
-    function GroupForm(group) {
-        // console.log(group.group, JSON.stringify(group.group));
-        let groupName = group.group.name;
-        let groupItems = group.group.headers.map((datum) => 
-            <div key={datum.name}>
-            <Label check>
-                <input type="checkbox" name={`${groupName}.${datum.name}`} {...register(`${groupName}.${datum.name}`)} defaultChecked />
-                {" " + datum.name}
-            </Label>
-            </div>
-        );
-        return (<FormGroup className="mb-3">
-            <h3>{groupName}.json</h3>
-            {groupItems}
-            </FormGroup>
-        );
-    };
+    function JsonNames(data) {
+        var names = [];
+        for (let i = 0; i < data.data.length; ++i) {
+            let fileName = data.data[i].name
+            names.push(
+                <li key={fileName} style={{fontSize: '15px'}}>{fileName}</li>
+            );
+        }
+        console.log(names)
+        return names;
+    }
 
-    function FullForm(data) {
-        // console.log(data.data, JSON.stringify(data.data));
-        let groupItems = [];
-        for (var datumName in data.data) {
-            let datum = {
-                "name": datumName,
-                "headers": data.data[datumName].headers
-            };
-            groupItems.push(
-                <div key={datumName}>
-                    <GroupForm group={datum}/>
+    // function GroupForm(group) {
+    //     // console.log(group.group, JSON.stringify(group.group));
+    //     let groupName = group.group.name;
+    //     let groupItems = group.group.headers.map((datum) => 
+    //         <div key={datum.name}>
+    //         <Label check>
+    //             <input type="checkbox" name={`${groupName}.${datum.name}`} {...register(`${groupName}.${datum.name}`)} defaultChecked />
+    //             {" " + datum.name}
+    //         </Label>
+    //         </div>
+    //     );
+    //     return (<FormGroup className="mb-3">
+    //         <h3>{groupName}.json</h3>
+    //         {groupItems}
+    //         </FormGroup>
+    //     );
+    // };
+
+
+    // function FullForm(data) {
+    //     // console.log(data.data, JSON.stringify(data.data));
+    //     let groupItems = [];
+    //     for (var datumName in data.data) {
+    //         let datum = {
+    //             "name": datumName,
+    //             "headers": data.data[datumName].headers
+    //         };
+    //         groupItems.push(
+    //             <div key={datumName}>
+    //                 <GroupForm group={datum}/>
+    //             </div>
+    //         );
+    //     };
+    //     return groupItems;
+    // };
+
+    function switchTemplate(id) {
+        console.log(id);
+        setTemplate(id);
+    }
+
+    function TemplateForm() {
+        var temps = [];
+        for (let i = 0; i < templates.length; ++i) {
+            let temp = templates[i];
+            temps.push(
+                <div key={temp.templateName}>
+                    <Label style={{marginLeft: '10px'}} check>
+                        <input style={{fontSize: '15px'}} type="radio" name='template' id={temp.templateId} 
+                            onChange={setTemplate(temp.templateId)}/>
+                        {"\xa0\xa0\xa0\xa0" + temp.templateName}
+                    </Label>
                 </div>
             );
         };
-        return groupItems;
-    };
+        return temps;
+    }
 
-    if (props.isUploadSuccessful && !submitted && isUploadSuccessful) {
+
+    if (props.dataArr && !submitted) {
         return (
-            <div style={{display:"block"}}>
-                <div className="file-upload2">
-                    <input type="file" onChange={uploadTemplates} ></input>
-                    <p style={{margin:"auto"}}>Upload your excel templates</p>
-                </div>
-                <Card className="mt-3">
-                    <CardBody className="m5">
-                        <h2>Select Columns for Rendering</h2>
-                        <hr/>
-                        <Form className="m-3" onSubmit={handleSubmit(onSubmit)}>
-                            <FullForm data={props.dataArr} />
-                            <Button style={{float:'right'}} color="primary" size="sm">Submit</Button>
-                        </Form>
+            <>
+                <Form onSubmit={onSubmit()}>
+                <div className="card round-borders blue-border ">
+                    <p className="card-header" style={{fontSize:"20px"}}>Select your template:</p>
+                    <CardBody>
+                        <FormGroup>
+                            <TemplateForm />
+                        </FormGroup>
                     </CardBody>
-                </Card>
-            </div>
+                </div>
+                <div className="card round-borders blue-border ">
+                    <p className="card-header" style={{fontSize:"20px"}}>Here are the files you have submitted:</p>
+                    <CardBody>
+                        <ul>
+                            <JsonNames data={props.dataArr} />
+                        </ul>
+                    </CardBody>
+                </div>
+                <Button className="green-submit" type='submit' onClick={onSubmit}>
+                    Submit
+                </Button>
+                </Form>
+            </>
         );
-    } else if (props.isUploadSuccessful && !isUploadSuccessful) {
+    } else if (!props.dataArr && !submitted) {
         return (
-            <div style={{display:"block"}}>
-                <div className="file-upload2">
-                    <input type="file" multiple onChange={uploadTemplates} ></input>
-                    <p style={{margin:"auto"}}>Upload your excel templates</p>
+                <div className="card round-borders blue-border ">
+                    <Form>
+                        <p className="card-header" style={{fontSize:"20px"}}>Select your template:</p>
+                        <CardBody>
+                            <FormGroup>
+                                <TemplateForm />
+                            </FormGroup>
+                        </CardBody>
+                    </Form>
                 </div>
-                <p style={{color:'red'}}>Error! Please check that you have uploaded an excel file (.xls or .xlsx)</p>
-                <Card className="mt-3">
-                    <CardBody className="m5">
-                        <h2>Select Columns for Rendering</h2>
-                        <hr/>
-                        <Form className="m-3" onSubmit={handleSubmit(onSubmit)}>
-                            <FullForm data={props.dataArr} />
-                            <Button style={{float:'right'}} color="primary" size="sm">Submit</Button>
-                        </Form>
-                    </CardBody>
-                </Card>
-            </div>
         );
-    } else if (props.isUploadSuccessful && submitted) {
+    } else if (props.dataArr && submitted) {
         return (
             <div className="message">
                 <h2>
@@ -228,25 +206,10 @@ function CheckForm(props) {
                 <Link style={{color:'#459ec4'}} onClick={() => window.location.reload(false)}>Click here to render another report.</Link>
             </div>
         )
-    } else if (props.isAttemptingUpload && !props.isUploadSuccessful) {
-        return (
-            <div className="message">
-                <h4>
-                    Unsuccessful file(s) upload.<br/>
-                    Allowed file extensions: .json<br/>
-                    Ensure data in file(s) are in proper format.
-                </h4>
-            </div>
-        );
-
     } else {
-        // !props.isAttemptingUpload --> just visited page
         return (
-            <div className="message">
-                <h2>
-                    Upload Your Files Here!
-                </h2>
-            </div>
+            <>
+            </>
         );
     };
 };
