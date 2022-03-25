@@ -24,27 +24,79 @@
   top: 0;
 }
 
+.card, .round-borders {
+  min-width: 400px;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,.2);
+  margin-bottom: 20px;
+
+}
+
+.wrapper {
+  padding-left: 12vw;
+  /* justify-content: center; */
+  align-items: center;
+  height: 100vh;
+  max-height: 100vh;
+  display: flex;
+}
+
+/* .card {
+  border: 4px solid #EE81A2;
+} */
+
 .outer-container {
-  padding-top: 72px;
+  /* padding-left: 12vw;
+  align-items: center;
+  height: 100vh;
+  max-height: 100vh; */
+  display: flex;
 }
 
 .container {
+  max-width: 70vw;
+  display: block;
+  justify-content: left;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+/* .container {
   max-width: 70vw;
   height: 100%;
   display: flex;
   justify-content: left;
   align-items: center;
+  margin-bottom: 20px;
+} */
+
+.green-submit {
+  border-radius: 10px;
+  width: 100%;
+  padding: 5px 2px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  background-image: linear-gradient(to bottom, #70e000 50%, #fff 50%);
+  border: 4px solid #fff;
+  background-size: 100% 200%;
+  transition: all 1s;
+  color: #fff;
+  font-size: 20px;
+  text-align: center;
 }
 
-.wrapper {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: left;
+.green-submit:hover {
+  background-position: 0 -100%;
+  color: #70e000;
+  border: 4px solid #70e000;
 }
-.file-upload2 {
+
+.template-upload {
   border-radius: 10px;
+  width: 300px;
   padding: 5px 2px;
   position: relative;
   display: flex;
@@ -52,55 +104,60 @@
   align-items: center;
   overflow: hidden;
   background-image: linear-gradient(to bottom, #459ec4 50%, #fff 50%);
+  border: 4px solid #fff;
   background-size: 100% 200%;
   transition: all 1s;
   color: #fff;
   font-size: 20px;
   text-align: center;
 }
-.file-upload2 input[type='file'] {
+
+.template-upload input[type='file'] {
   position: absolute;
   top: 0;
   left: 0;
   opacity: 0;
   cursor: pointer;
 }
-.file-upload2:hover {
+
+.template-upload:hover {
   background-position: 0 -100%;
   color: #459ec4;
 }
 
-.wrapper .file-upload {
-  height: 200px;
-  width: 200px;
-  margin-left: 18vw;
+.container .file-upload {
+  /* height: 200px;
+  width: 200px; */
+  width: 300px;
+  padding: 5px 2px;
+  /* margin-left: 18vw; */
   margin-top: 0;
-  border-radius: 100px;
+  border-radius: 10px;
   position: relative;
   display: flex;
-  justify-content: center;
+  justify-content: left;
   align-items: center;
-  border: 4px solid #fff;
+  border: 4px solid #459ec4;
   overflow: hidden;
-  background-image: linear-gradient(to bottom, #459ec4 50%, #fff 50%);
+  background-image: linear-gradient(to bottom, #fff 50%, #459ec4 50%);
   background-size: 100% 200%;
   transition: all 1s;
-  color: #fff;
-  font-size: 100px;
+  color: #459ec4;
+  font-size: 20px;
   text-align: center;
 }
-.wrapper .file-upload input[type='file'] {
-  height: 200px;
-  width: 200px;
+.container .file-upload input[type='file'] {
+  /* height: 200px;
+  width: 200px; */
   position: absolute;
   top: 0;
   left: 0;
   opacity: 0;
   cursor: pointer;
 }
-.wrapper .file-upload:hover {
+.container .file-upload:hover {
   background-position: 0 -100%;
-  color: #459ec4;
+  color: #fff;
 }
 
 .message {
@@ -110,38 +167,66 @@
 
 @media screen and (max-width: 960px) {	
 
-  .wrapper {
+  .con {
     justify-content: center;
     margin: 0;
   }
 
-  .wrapper .file-upload {
-    height: 175px;
-    width: 175px;
-    /* margin-left: 18vw; */
+  .outer-container {
+    /* padding-left: 5vw; */
+    padding-left: 0;
     margin: 0;
-    border-radius: 100px;
+    display: block;
+    max-width: 700px;
+    width: 80%;
+  }
+
+  .wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0px;
+    margin: 0;
+  }
+
+  .card {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .container .file-upload {
+    /* height: 175px;
+    width: 175px; */
+    /* margin-left: 18vw; */
+    width: 100%;
+    margin: 0;
+    border-radius: 10px;
     position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 4px solid #fff;
+    border: 4px solid #459ec4;
     overflow: hidden;
-    background-image: linear-gradient(to bottom, #459ec4 50%, #fff 50%);
+    background-image: linear-gradient(to bottom, #fff 50%, #459ec4 50%);
     background-size: 100% 200%;
     transition: all 1s;
-    color: #fff;
-    font-size: 50px;
+    color: #459ec4;
+    font-size: 20px;
     text-align: center;
   }
-  .wrapper .file-upload input[type='file'] {
-    height: 175px;
-    width: 175px;
-    position: absolute;
+  .container .file-upload input[type='file'] {
+    /* height: 175px;
+    width: 175px; */
+    /* position: absolute; */
     top: 0;
     left: 0;
     opacity: 0;
     cursor: pointer;
+    display: flex;
+  }
+
+  .template-upload {
+    width: 100%;
   }
 
   .message {
