@@ -113,6 +113,7 @@
 }
 
 .template-upload input[type='file'] {
+  width: 100%;
   position: absolute;
   top: 0;
   left: 0;
@@ -149,6 +150,7 @@
 .container .file-upload input[type='file'] {
   /* height: 200px;
   width: 200px; */
+  width: 100%;
   position: absolute;
   top: 0;
   left: 0;
@@ -161,8 +163,26 @@
 }
 
 .message {
-  margin: 5px 40px;
+  margin: 15px 40px;
   color: #474747;
+}
+
+.reload-link {
+  margin: 15px 40px;
+  color: #459ec4;
+}
+
+.reload-link:hover {
+  color: #317B9B;
+}
+
+.invalid-feedback {
+  display: block !important;
+  margin-bottom: 5px;
+}
+
+.file-name-input {
+  margin-bottom: 20px;
 }
 
 @media screen and (max-width: 960px) {	
@@ -230,9 +250,12 @@
   }
 
   .message {
-    margin: 5px 20px;
+    margin: 10px 20px;
     color: #474747;
+  }
 
+  .reload-link {
+    margin: 10px 20px;
   }
 
   .container {

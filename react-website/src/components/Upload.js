@@ -130,34 +130,6 @@ const uploadTemplates = async (event) => {
         </div>
       </div>
     );
-  // } else if (isUploadSuccessfulJ && !isUploadSuccessfulT) {
-  //   return (
-  //     <div className="outer-container">
-  //       <div style={{display:'block'}}>
-  //         <div className="container">
-  //           <div className="template-upload">
-  //             <input type="file" onChange={uploadTemplates} ></input>
-  //             <p style={{margin:"auto"}}>Upload your excel templates</p>
-  //           </div>
-  //         </div>
-  //         <div className="container">
-  //           <div className="file-upload">
-  //             <input type="file" multiple onChange={uploadFiles} />
-  //             <p style={{margin:"auto"}}>Upload your JSON files</p>
-  //           </div>
-  //           <CheckForm dataArr={dataArr} isUploadSuccessfulJ={isUploadSuccessfulJ} isAttemptingUploadJ={isAttemptingUploadJ}/>
-  //         </div>
-  //       </div>
-  //     </div>
-  //   );
-  // }else {
-  //   return (
-  //     <div className="container">
-  //       <CheckForm dataArr={dataArr} isUploadSuccessfulJ={isUploadSuccessfulJ} isAttemptingUploadJ={isAttemptingUploadJ}/>
-  //     </div>
-  //   );
-  // }
-  
 };
 
 export default Upload;

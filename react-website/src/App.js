@@ -5,6 +5,7 @@ import './App.css';
 import RENDRAPP from "./components/pages/RENDRAPP";
 import AboutUs from './components/pages/AboutUs';
 import Home from './components/pages/Home';
+import FormSubmitted from './components/pages/FormSubmitted';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
           <Route path='/Home' component={Home}/>
           <Route path='/' exact component = {RENDRAPP} />
           <Route path='/aboutus' component={AboutUs}/>
+          <Route path='/form-submitted' component={FormSubmitted} />
         </Switch>
       </Router>
     </>
