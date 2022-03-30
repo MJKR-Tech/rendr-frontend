@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import {Link} from 'react-router-dom';
+import {Redirect} from 'react-router-dom';
+import { useForm } from 'react-hook-form';
 import { Button, Form, FormGroup, Input, Label, Card, CardBody, CardHeader } from 'reactstrap';
 import axios from 'axios';
 
 function CheckForm(props) {
 
     // const [postId, setPostId] = useState(null);
-    const [template, setTemplate] = useState(false);
     const [submitted, setSubmitted] = useState(false);
+    const { register, handleSubmit, formState: { errors } } = useForm();
     // const [isUploadSuccessfulJ, setisUploadSuccessfulJ] = useState(true);
     
     const baseSite = "http://localhost:8080";
@@ -69,21 +70,75 @@ function CheckForm(props) {
     //     })
     // }
 
-    function onSubmit(formData) {
-        let filename = "Sample";
-        let newDataArr = props.dataArr;
+    const generateDatum = (result) => {
+        let jsonBody = JSON.parse(result).body;
+        let jsonName = Object.getOwnPropertyNames(jsonBody)[0];
+        let jsonData = jsonBody[jsonName];
+        
+        return {
+          "name": jsonName,
+          "data": {
+            "headers": jsonData.columns,
+            "rows": jsonData.rows
+        }};
+      };
+    
+      const readUploadedFileAsText = (inputFile) => {
+        const temporaryFileReader = new FileReader();
+      
+        return new Promise((resolve, reject) => {
+          temporaryFileReader.onerror = () => {
+            temporaryFileReader.abort();
+            reject(new DOMException("Problem parsing input file."));
+          };
+      
+          temporaryFileReader.onload = () => {
+            resolve(temporaryFileReader.result);
+          };
+          temporaryFileReader.readAsText(inputFile);
+        });
+      };
+    
+      const generateDataArr = async (files) => {
+        var dataArr = {};
+        for (var i = 0; i < files.length; i++) {
+          var file = files[i];
+          var readData = await readUploadedFileAsText(file);
+          var datum = generateDatum(readData);
+          dataArr[datum.name] = datum.data;
+        };
+        return dataArr;
+      };
 
-        for (var groupName in newDataArr) {
-            let headers = newDataArr[groupName].headers;
-            for (var num = 0; num < headers.length; num++) {
-                let singleName = headers[num].name;
-                headers[num].isSelected = formData[groupName][singleName];
+    const onSubmit = async (formData) => {
+        console.log(formData)
+        if (formData.template != undefined) {
+            try {
+                let dataArr = await generateDataArr(props.dataArr);
+                let filename = "Sample";
+                let jsonFile = {
+                    templateId: 0,
+                    jsonObjects: [],
+                    fileName: ""
+                }
+                jsonFile.templateId = formData.template;
+                jsonFile.jsonObjects = dataArr;
+                jsonFile.fileName = formData.fileName;
+                console.log(jsonFile);
+                submitForm(jsonFile, filename);
+                setSubmitted(true);
+            } catch(error) {
             }
         }
-
-        console.log(newDataArr);
-        setSubmitted(true);
-        submitForm(newDataArr, filename);
+        // for (var groupName in newDataArr) {
+        //     let headers = newDataArr[groupName].headers;
+        //     for (var num = 0; num < headers.length; num++) {
+        //         let singleName = headers[num].name;
+        //         headers[num].isSelected = formData[groupName][singleName];
+        //     }
+        // }
+        // setSubmitted(true);
+        // submitForm(newDataArr, filename);
     };
 
     function JsonNames(data) {
@@ -94,7 +149,7 @@ function CheckForm(props) {
                 <li key={fileName} style={{fontSize: '15px'}}>{fileName}</li>
             );
         }
-        console.log(names)
+        // console.log(names)
         return names;
     }
 
@@ -134,78 +189,78 @@ function CheckForm(props) {
     //     return groupItems;
     // };
 
-    function switchTemplate(id) {
-        console.log(id);
-        setTemplate(id);
-    }
-
     function TemplateForm() {
         var temps = [];
         for (let i = 0; i < templates.length; ++i) {
             let temp = templates[i];
+            let tempId = temp.templateId
             temps.push(
                 <div key={temp.templateName}>
-                    <Label style={{marginLeft: '10px'}} check>
-                        <input style={{fontSize: '15px'}} type="radio" name='template' id={temp.templateId} 
-                            onChange={setTemplate(temp.templateId)}/>
+                    <div style={{marginLeft: '10px'}} check>
+                        <input style={{fontSize: '15px'}} {...register("template")} type="radio" value={tempId} required />
                         {"\xa0\xa0\xa0\xa0" + temp.templateName}
-                    </Label>
+                    </div>
                 </div>
             );
         };
         return temps;
     }
 
+    // const {ref, ...fileName} = register("fileName", {required:true, pattern:/^[^\\\/\:\*\?\"\<\>\|\.]+(\.[^\\\/\:\*\?\"\<\>\|\.]+)+$/});
+    const required = "This field is required";
+    const maxLength = "Your input exceed maximum length of 255 characters";
+    const pattern = "Your file name should only use alphanumeric characters, \xa0\xa0'\xa0-\xa0'\xa0\xa0 , \xa0\xa0'\xa0_\xa0'\xa0\xa0 , \xa0\xa0'\xa0.\xa0'\xa0\xa0 and space"
+    const errorMessage = error => {
+        return <div className="invalid-feedback">{error}</div>;
+    }
 
-    if (props.dataArr && !submitted) {
+    if (props.dataArr) {
         return (
             <>
-                <Form onSubmit={onSubmit()}>
-                <div className="card round-borders blue-border ">
-                    <p className="card-header" style={{fontSize:"20px"}}>Select your template:</p>
-                    <CardBody>
-                        <FormGroup>
-                            <TemplateForm />
-                        </FormGroup>
-                    </CardBody>
-                </div>
-                <div className="card round-borders blue-border ">
-                    <p className="card-header" style={{fontSize:"20px"}}>Here are the files you have submitted:</p>
-                    <CardBody>
-                        <ul>
-                            <JsonNames data={props.dataArr} />
-                        </ul>
-                    </CardBody>
-                </div>
-                <Button className="green-submit" type='submit' onClick={onSubmit}>
-                    Submit
-                </Button>
-                </Form>
-            </>
-        );
-    } else if (!props.dataArr && !submitted) {
-        return (
-                <div className="card round-borders blue-border ">
-                    <Form>
+                <Form onSubmit={handleSubmit(onSubmit)}>
+                    <div className="card round-borders blue-border ">
                         <p className="card-header" style={{fontSize:"20px"}}>Select your template:</p>
                         <CardBody>
                             <FormGroup>
                                 <TemplateForm />
                             </FormGroup>
                         </CardBody>
-                    </Form>
-                </div>
+                    </div>
+                    <div className="card round-borders blue-border ">
+                        <p className="card-header" style={{fontSize:"20px"}}>Here are the files you have submitted:</p>
+                        <CardBody>
+                            <ul>
+                                <JsonNames data={props.dataArr} />
+                            </ul>
+                        </CardBody>
+                    </div>
+                    <div className="file-name-input">
+                        <input type='text' className="form-control" placeholder='Name Your File e.g. Report 1' name="fileName"
+                        {...register("fileName", {required:true, pattern: /^[0-9a-zA-Z_\-. ]+$/, maxLength:255})} />
+                        {errors.fileName && errors.fileName.type === "required" && errorMessage(required)}
+                        {errors.fileName && errors.fileName.type === "maxLength" && errorMessage(maxLength)}
+                        {errors.fileName && errors.fileName.type === "pattern" && errorMessage(pattern)}
+                    </div>
+                    <Button className="green-submit" type='submit'>
+                        Submit
+                    </Button>
+                </Form>
+                {submitted ? <Redirect to="/form-submitted" /> : <div />}
+            </>
         );
-    } else if (props.dataArr && submitted) {
+    } else if (!props.dataArr) {
         return (
-            <div className="message">
-                <h2>
-                    Form Submitted! <br/><br/>
-                    Your file should be downloading in a few seconds. <br/><br/>
-                </h2>
-                <Link style={{color:'#459ec4'}} onClick={() => window.location.reload(false)}>Click here to render another report.</Link>
+            <div className="card round-borders blue-border ">
+                <Form>
+                    <p className="card-header" style={{fontSize:"20px"}}>Select your template:</p>
+                    <CardBody>
+                        <FormGroup>
+                            <TemplateForm />
+                        </FormGroup>
+                    </CardBody>
+                </Form>
             </div>
-        )
+        );
     } else {
         return (
             <>

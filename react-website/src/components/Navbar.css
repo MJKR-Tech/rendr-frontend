@@ -3,7 +3,7 @@
   background: #fff;
   height: 80px;	
   display: flex;	
-  justify-content: center;	
+  justify-content: left;	
   align-items: center;	
   font-size: 1.2rem;	
   position: sticky;	
@@ -27,7 +27,7 @@
 
 .navbar-logo {	
   justify-self: center;	
-  margin: 0;
+  margin-left: 5vw;
   cursor: pointer;	
   display: flex;	
   align-items: center;	
