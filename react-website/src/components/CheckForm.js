@@ -8,30 +8,47 @@ function CheckForm(props) {
 
     // const [postId, setPostId] = useState(null);
     const [submitted, setSubmitted] = useState(false);
+    // const [refresh, setRefresh] = useState(false);
     const { register, handleSubmit, formState: { errors } } = useForm();
+    const [templates, setTemplates] = useState([]);
     // const [isUploadSuccessfulJ, setisUploadSuccessfulJ] = useState(true);
     
     const baseSite = "http://localhost:8080";
     const apiPath = "/api/v1";
     const generatePath = "/generateData";
     const generateURL = baseSite + apiPath + generatePath;
-    const templates = [
-        {
-            "templateId": 2,
-            "templateName": "Complex_2",
-            "dateCreated": "2022-03-24"
-        },
-        {
-            "templateId": 3,
-            "templateName": "Complex_3",
-            "dateCreated": "2022-03-22"
-        },
-        {
-            "templateId": 4,
-            "templateName": "Complex_4",
-            "dateCreated": "2022-03-21"
-        }
-    ];
+    useEffect(() => {
+        const getTemplates = async () => {
+            let getURL = baseSite + apiPath + "/getTemplates";
+            await axios.get(getURL)
+            .then((res) => {
+                var newTemplates = [];
+                newTemplates.push(res.data);
+                setTemplates(newTemplates);
+            }).catch((err) => {
+                console.log(err);
+            });
+        };
+
+        getTemplates();
+    }, []);
+    // const templates = [
+    //     {
+    //         "templateId": 2,
+    //         "templateName": "Complex_2",
+    //         "dateCreated": "2022-03-24"
+    //     },
+    //     {
+    //         "templateId": 3,
+    //         "templateName": "Complex_3",
+    //         "dateCreated": "2022-03-22"
+    //     },
+    //     {
+    //         "templateId": 4,
+    //         "templateName": "Complex_4",
+    //         "dateCreated": "2022-03-21"
+    //     }
+    // ];
 
     const submitForm = (json, outputFilename) => {
         axios.post(generateURL, json, {
@@ -189,22 +206,23 @@ function CheckForm(props) {
     //     return groupItems;
     // };
 
-    function TemplateForm() {
-        var temps = [];
-        for (let i = 0; i < templates.length; ++i) {
-            let temp = templates[i];
-            let tempId = temp.templateId
-            temps.push(
-                <div key={temp.templateName}>
-                    <div style={{marginLeft: '10px'}} check>
-                        <input style={{fontSize: '15px'}} {...register("template")} type="radio" value={tempId} required />
-                        {"\xa0\xa0\xa0\xa0" + temp.templateName}
-                    </div>
-                </div>
-            );
-        };
-        return temps;
-    }
+    // async function TemplateForm() {
+    //     var templates = getTemplates();
+    //     var temps = [];
+        // for (let i = 0; i < templates.length; ++i) {
+        //     let temp = templates[i];
+        //     let tempId = temp.templateId
+        //     temps.push(
+        //         <div key={temp.templateName}>
+        //             <div style={{marginLeft: '10px'}} check>
+        //                 <input style={{fontSize: '15px'}} {...register("template")} type="radio" value={tempId} required />
+        //                 {"\xa0\xa0\xa0\xa0" + temp.templateName}
+        //             </div>
+        //         </div>
+        //     );
+        // };
+        // return temps;
+    // }
 
     // const {ref, ...fileName} = register("fileName", {required:true, pattern:/^[^\\\/\:\*\?\"\<\>\|\.]+(\.[^\\\/\:\*\?\"\<\>\|\.]+)+$/});
     const required = "This field is required";
@@ -222,7 +240,26 @@ function CheckForm(props) {
                         <p className="card-header" style={{fontSize:"20px"}}>Select your template:</p>
                         <CardBody>
                             <FormGroup>
-                                <TemplateForm />
+                                {
+                                    templates.map(templ => {
+                                        let temps = [];
+                                        for (let i = 0; i < templ.length; ++i) {
+                                            let temp = templ[i];
+                                            let tempId = temp.templateId
+                                            temps.push(
+                                                <div key={temp.templateName}>
+                                                    <div style={{marginLeft: '10px'}} check>
+                                                        <input style={{fontSize: '15px'}} {...register("template")} type="radio" value={tempId} required />
+                                                        {"\xa0\xa0\xa0\xa0" + temp.templateName}
+                                                    </div>
+                                                </div>
+                                            );
+                                        };
+                                        return (
+                                            temps
+                                        );
+                                    })
+                                }
                             </FormGroup>
                         </CardBody>
                     </div>
@@ -255,7 +292,26 @@ function CheckForm(props) {
                     <p className="card-header" style={{fontSize:"20px"}}>Select your template:</p>
                     <CardBody>
                         <FormGroup>
-                            <TemplateForm />
+                            {
+                                templates.map(templ => {
+                                    let temps = [];
+                                    for (let i = 0; i < templ.length; ++i) {
+                                        let temp = templ[i];
+                                        let tempId = temp.templateId
+                                        temps.push(
+                                            <div key={temp.templateName}>
+                                                <div style={{marginLeft: '10px'}} check>
+                                                    <input style={{fontSize: '15px'}} {...register("template")} type="radio" value={tempId} required />
+                                                    {"\xa0\xa0\xa0\xa0" + temp.templateName}
+                                                </div>
+                                            </div>
+                                        );
+                                    };
+                                    return (
+                                        temps
+                                    );
+                                })
+                            }
                         </FormGroup>
                     </CardBody>
                 </Form>

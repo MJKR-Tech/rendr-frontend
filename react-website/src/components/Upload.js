@@ -1,12 +1,20 @@
-import React, { useState } from "react";
+import axios from "axios";
+import React, { useState, useEffect } from "react";
 import { Container, Button } from 'reactstrap'
 import CheckForm from "./CheckForm";
 
 function Upload({ children }) {
   
-  const [templates, setTemplates] = useState(false);
+  // const [templates, setTemplates] = useState(false);
   const [dataArr, setData] = useState(false);
-  const [jUpload, setJUpload] = useState(false);
+  const [templates, setTemplates] = useState([]);
+  // const [jUpload, setJUpload] = useState(false);
+  const baseSite = "http://localhost:8080";
+  const apiPath = "/api/v1";
+  const generatePath = "/uploadTemplate";
+  const generateURL = baseSite + apiPath + generatePath;
+  // var templates = [];
+  // getTemplates();
   // const [isUploadSuccessfulJ, setIsUploadSuccessfulJ] = useState(false);
 
   // const validateFile = (file) => {
@@ -73,63 +81,67 @@ function Upload({ children }) {
       let dataArr = await updateData(event.target.files);
       console.log(dataArr);
       setData(dataArr);
-      setJUpload(true);
+      // setJUpload(true);
       // setIsUploadSuccessfulJ(true);
 
     } catch (error) {
       console.error(error);
       setData({}); // reset back
-      setJUpload(false);
+      // setJUpload(false);
       // setIsUploadSuccessfulJ(false);
     }
   };
   
-  const updateTemplates = async (files) => {
-    let templates = files;
-    if (Object.keys(templates).length === 0) {
-      throw "Data fed is empty."; 
-    }
-    return templates;
+  // const updateTemplates = async (files) => {
+  //   let templates = files;
+  //   if (Object.keys(templates).length === 0) {
+  //     throw "Data fed is empty."; 
+  //   }
+  //   return templates;
+  // };
+
+  const uploadTemplates = async (event) => {
+    let template = event.target.files;
+    console.log(template)
+
+    axios.post(generateURL, template, {
+      method: "POST",
+      headers: {
+        'Accept': 'application/octet-stream'
+      },
+      data: template,
+    })
+      .then((res => {
+        console.log('success');
+      }))
+      .catch((err) => {console.log(err)})
+    // getTemplates();
   };
 
-const uploadTemplates = async (event) => {
-    setTemplates({});
-
-    try {
-        let templates = await updateTemplates(event.target.files);
-        console.log(templates);
-        setTemplates(templates);
-  
-      } catch (error) {
-        console.error(error);
-        setTemplates({}); // reset back
-      }
-};
-
   // if (!isUploadSuccessfulJ && !isUploadSuccessfulT) {
-    return (
-      <div className="wrapper">
-        <div className="outer-container">
-          <div style={{display:'block'}}>
-            <div className="container">
-              <div className="template-upload">
-                <input type="file" onChange={uploadTemplates} accept=".xls,.xlsx" />
-                <p style={{margin:"auto"}}>Upload new templates</p>
-              </div>
-            </div>
-            <div className="container">
-              <div className="file-upload">
-                <input type="file" multiple onChange={uploadFiles} accept=".json" />
-                <p style={{margin:"auto"}}>Upload your JSON files</p>
-              </div>
+  return (
+    <div className="wrapper">
+      <div className="outer-container">
+        <div style={{display:'block'}}>
+          <div className="container">
+            <div className="template-upload">
+              <input type="file" onChange={uploadTemplates} accept=".xls,.xlsx" />
+              <p style={{margin:"auto"}}>Upload new templates</p>
             </div>
           </div>
           <div className="container">
-            <CheckForm dataArr={dataArr} templates={templates}/>
+            <div className="file-upload">
+              <input type="file" multiple onChange={uploadFiles} accept=".json" />
+              <p style={{margin:"auto"}}>Upload your JSON files</p>
+            </div>
           </div>
         </div>
+        <div className="container">
+          <CheckForm dataArr={dataArr}/>
+        </div>
       </div>
-    );
+    </div>
+  );
 };
 
 export default Upload;

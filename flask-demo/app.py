@@ -1,4 +1,5 @@
 from flask import Flask, send_file, jsonify
+from flask_cors import CORS
 from datetime import date
 
 """
@@ -9,6 +10,7 @@ python app.py
 """
 
 APP = Flask(__name__)
+CORS(APP)
 BASE_URL = "/api/v1"
 SAMPLE_FILE_PATH = "sample_template.xlsx"
 TEMPLATES = [
@@ -37,7 +39,7 @@ def greet():
 def getTemplates():
     return jsonify(TEMPLATES)
 
-@APP.route(BASE_URL + "/uploadTemplate", methods=["POST"])
+@APP.route(BASE_URL + "/uploadTemplate", methods=["POST", "OPTIONS"])
 def uploadTemplate():
     global TEMPLATES
     newId = max(map(lambda template: template["templateId"], TEMPLATES)) + 1
