@@ -8,6 +8,8 @@ function CheckForm(props) {
     const [submitted, setSubmitted] = useState(false);
     const { register, handleSubmit, formState: { errors } } = useForm();
     const [templates, setTemplates] = useState([]);
+    // const [, updateState] = useState();
+    // const forceUpdate = useCallback(() => updateState({}), []);
     
     const baseSite = "http://localhost:8080";
     const apiPath = "/api/v1";
@@ -21,6 +23,9 @@ function CheckForm(props) {
                 var newTemplates = [];
                 newTemplates.push(res.data);
                 setTemplates(newTemplates);
+                // forceUpdate();
+                // console.log(templates);
+                // console.log('refreshed');
             }).catch((err) => {
                 console.log(err);
             });
