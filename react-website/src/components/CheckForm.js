@@ -1,17 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import {Redirect} from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import { Button, Form, FormGroup, Input, Label, Card, CardBody, CardHeader } from 'reactstrap';
+import { Button, Form, FormGroup, CardBody } from 'reactstrap';
 import axios from 'axios';
 
 function CheckForm(props) {
-
-    // const [postId, setPostId] = useState(null);
     const [submitted, setSubmitted] = useState(false);
-    // const [refresh, setRefresh] = useState(false);
     const { register, handleSubmit, formState: { errors } } = useForm();
     const [templates, setTemplates] = useState([]);
-    // const [isUploadSuccessfulJ, setisUploadSuccessfulJ] = useState(true);
     
     const baseSite = "http://localhost:8080";
     const apiPath = "/api/v1";
@@ -32,23 +28,6 @@ function CheckForm(props) {
 
         getTemplates();
     }, []);
-    // const templates = [
-    //     {
-    //         "templateId": 2,
-    //         "templateName": "Complex_2",
-    //         "dateCreated": "2022-03-24"
-    //     },
-    //     {
-    //         "templateId": 3,
-    //         "templateName": "Complex_3",
-    //         "dateCreated": "2022-03-22"
-    //     },
-    //     {
-    //         "templateId": 4,
-    //         "templateName": "Complex_4",
-    //         "dateCreated": "2022-03-21"
-    //     }
-    // ];
 
     const submitForm = (json, outputFilename) => {
         axios.post(generateURL, json, {
@@ -68,24 +47,6 @@ function CheckForm(props) {
             link.click();
         });
     };
-
-    // const submitTemplate = (template) => {
-    //     axios.post(generateURL, template, {
-    //         method: 'POST',
-    //         headers: {
-    //             'Accept': 'application/octet-stream',
-    //             'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-    //         },
-    //         responseType: 'application/json',
-    //     }).then((response) => {
-    //         let res = JSON.parse(response).result
-    //         if (res == "true") {
-    //             setisUploadSuccessfulJ(true)
-    //         } else {
-    //             setisUploadSuccessfulJ(false)
-    //         }
-    //     })
-    // }
 
     const generateDatum = (result) => {
         let jsonBody = JSON.parse(result).body;
@@ -128,34 +89,25 @@ function CheckForm(props) {
       };
 
     const onSubmit = async (formData) => {
-        console.log(formData)
-        if (formData.template != undefined) {
+        console.log(formData.template);
+        if (formData.template !== undefined) {
             try {
                 let dataArr = await generateDataArr(props.dataArr);
-                let filename = "Sample";
                 let jsonFile = {
                     templateId: 0,
                     jsonObjects: [],
                     fileName: ""
                 }
-                jsonFile.templateId = formData.template;
+                jsonFile.templateId = parseInt(formData.template);
                 jsonFile.jsonObjects = dataArr;
                 jsonFile.fileName = formData.fileName;
                 console.log(jsonFile);
-                submitForm(jsonFile, filename);
+                submitForm(jsonFile, formData.fileName);
                 setSubmitted(true);
             } catch(error) {
+                console.log(error);
             }
         }
-        // for (var groupName in newDataArr) {
-        //     let headers = newDataArr[groupName].headers;
-        //     for (var num = 0; num < headers.length; num++) {
-        //         let singleName = headers[num].name;
-        //         headers[num].isSelected = formData[groupName][singleName];
-        //     }
-        // }
-        // setSubmitted(true);
-        // submitForm(newDataArr, filename);
     };
 
     function JsonNames(data) {
@@ -166,65 +118,9 @@ function CheckForm(props) {
                 <li key={fileName} style={{fontSize: '15px'}}>{fileName}</li>
             );
         }
-        // console.log(names)
         return names;
     }
 
-    // function GroupForm(group) {
-    //     // console.log(group.group, JSON.stringify(group.group));
-    //     let groupName = group.group.name;
-    //     let groupItems = group.group.headers.map((datum) => 
-    //         <div key={datum.name}>
-    //         <Label check>
-    //             <input type="checkbox" name={`${groupName}.${datum.name}`} {...register(`${groupName}.${datum.name}`)} defaultChecked />
-    //             {" " + datum.name}
-    //         </Label>
-    //         </div>
-    //     );
-    //     return (<FormGroup className="mb-3">
-    //         <h3>{groupName}.json</h3>
-    //         {groupItems}
-    //         </FormGroup>
-    //     );
-    // };
-
-
-    // function FullForm(data) {
-    //     // console.log(data.data, JSON.stringify(data.data));
-    //     let groupItems = [];
-    //     for (var datumName in data.data) {
-    //         let datum = {
-    //             "name": datumName,
-    //             "headers": data.data[datumName].headers
-    //         };
-    //         groupItems.push(
-    //             <div key={datumName}>
-    //                 <GroupForm group={datum}/>
-    //             </div>
-    //         );
-    //     };
-    //     return groupItems;
-    // };
-
-    // async function TemplateForm() {
-    //     var templates = getTemplates();
-    //     var temps = [];
-        // for (let i = 0; i < templates.length; ++i) {
-        //     let temp = templates[i];
-        //     let tempId = temp.templateId
-        //     temps.push(
-        //         <div key={temp.templateName}>
-        //             <div style={{marginLeft: '10px'}} check>
-        //                 <input style={{fontSize: '15px'}} {...register("template")} type="radio" value={tempId} required />
-        //                 {"\xa0\xa0\xa0\xa0" + temp.templateName}
-        //             </div>
-        //         </div>
-        //     );
-        // };
-        // return temps;
-    // }
-
-    // const {ref, ...fileName} = register("fileName", {required:true, pattern:/^[^\\\/\:\*\?\"\<\>\|\.]+(\.[^\\\/\:\*\?\"\<\>\|\.]+)+$/});
     const required = "This field is required";
     const maxLength = "Your input exceed maximum length of 255 characters";
     const pattern = "Your file name should only use alphanumeric characters, \xa0\xa0'\xa0-\xa0'\xa0\xa0 , \xa0\xa0'\xa0_\xa0'\xa0\xa0 , \xa0\xa0'\xa0.\xa0'\xa0\xa0 and space"
@@ -247,8 +143,8 @@ function CheckForm(props) {
                                             let temp = templ[i];
                                             let tempId = temp.templateId
                                             temps.push(
-                                                <div key={temp.templateName}>
-                                                    <div style={{marginLeft: '10px'}} check>
+                                                <div key={temp.templateId}>
+                                                    <div style={{marginLeft: '10px'}} check="false">
                                                         <input style={{fontSize: '15px'}} {...register("template")} type="radio" value={tempId} required />
                                                         {"\xa0\xa0\xa0\xa0" + temp.templateName}
                                                     </div>
@@ -285,7 +181,7 @@ function CheckForm(props) {
                 {submitted ? <Redirect to="/form-submitted" /> : <div />}
             </>
         );
-    } else if (!props.dataArr) {
+    } else {
         return (
             <div className="card round-borders blue-border ">
                 <Form>
@@ -299,8 +195,8 @@ function CheckForm(props) {
                                         let temp = templ[i];
                                         let tempId = temp.templateId
                                         temps.push(
-                                            <div key={temp.templateName}>
-                                                <div style={{marginLeft: '10px'}} check>
+                                            <div key={temp.templateId}>
+                                                <div style={{marginLeft: '10px'}} check="false">
                                                     <input style={{fontSize: '15px'}} {...register("template")} type="radio" value={tempId} required />
                                                     {"\xa0\xa0\xa0\xa0" + temp.templateName}
                                                 </div>
@@ -317,12 +213,7 @@ function CheckForm(props) {
                 </Form>
             </div>
         );
-    } else {
-        return (
-            <>
-            </>
-        );
-    };
+    }
 };
 
 export default CheckForm;
