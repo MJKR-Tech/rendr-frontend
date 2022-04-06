@@ -25,7 +25,16 @@ export default function EditTemplateForm(props) {
     // }
 
     const getTemplate = (temp) => {
-        axios.post(generateURL + "/downloadTemplate", temp.templateId)
+        axios.post(generateURL + "/downloadTemplate", 
+                {"templateId": temp.templateId},
+                {
+                    method: 'POST',
+                    headers: {
+                        'Accept': 'application/octet-stream',
+                        'Content-Type': 'application/json'
+                    },
+                    responseType: 'blob', // important
+                })
         .then((response) => {
             let url = window.URL.createObjectURL(new Blob([response.data]));
             let link = document.createElement('a');

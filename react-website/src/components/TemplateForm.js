@@ -16,7 +16,7 @@ export default function TemplateForm(props) {
                         <p style={{fontSize:"20px", display:"inline-block", marginBottom:"5px"}}>Select your template:</p>
                         <button type="button" style={{float: "right"}} className="btn btn-sm edit-btn white" onClick={toggle}>
                             Edit &nbsp;
-                            <i class="fa-solid fa-pen-to-square"></i>
+                            <i className="fa-solid fa-pen-to-square"></i>
                         </button>
                     </div>
                     <SelectTemplateForm templates={props.templates} register={props.register} errors={props.errors} />
@@ -31,7 +31,7 @@ export default function TemplateForm(props) {
                     <p style={{fontSize:"20px", display:"inline-block", marginBottom:"5px"}}>Edit Templates:</p>
                     <button type="button" style={{float: "right"}} className="btn btn-sm edit-btn" onClick={toggle}>
                         Back &nbsp;
-                        <i class="fa-solid fa-arrow-left"></i>
+                        <i className="fa-solid fa-arrow-left"></i>
                     </button>
                 </div>
                 <EditTemplateForm templates={props.templates} />
