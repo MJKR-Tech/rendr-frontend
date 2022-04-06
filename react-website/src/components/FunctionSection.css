@@ -15,14 +15,12 @@ function-container {
     /* box-shadow: inset 0 0 0 1000px rgba(0, 0, 0, 0.2); */
 }
 
-/* .background-image {
-    background: url('/images/BG3.jpg');
+.background-image {
+    background: url('/images/alt-background.jpg');
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-size: cover;
-    filter: grayscale(60%);
-    opacity: 0.7;
-} */
+}
 
 .function-container > p {
     margin-top: 8px;
@@ -30,16 +28,23 @@ function-container {
     font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 
+.imageC {
+}
+
 .imageR {
     width: 50%;
     margin-left: 2%;
-    border-radius: 15%;
+    border-radius: 10%;
+    padding-left: 3%;
+    padding-right: 3%;    
 }
 
 .imageL {
     width: 50%;
     margin-right: 2%;
-    border-radius: 15%;
+    border-radius: 10%;
+    padding-left: 3%;
+    padding-right: 3%;  
 }
 
 .title {
@@ -48,9 +53,9 @@ function-container {
     display: flex;
     justify-content: left;
     align-items: center;
-    margin-top: 10px;
     margin-bottom: 50px;
     margin-left: 10%;
+    padding-top: 50px;
 }
 
 .content {
@@ -73,6 +78,8 @@ function-container {
     margin-top: 2%;
     margin-left: 10%;
     margin-right: 10%;
+    padding-left: 3%;
+    padding-right: 3%;
 }
 
 .subContentR {
@@ -84,6 +91,20 @@ function-container {
     margin-top: 2%;
     margin-left: 10%;
     margin-right: 10%;
+    padding-left: 3%;
+    padding-right: 3%;
+}
+
+.subContent {
+    color: #459ec4;
+    font-size: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 10%;
+    margin-right: 10%;
+    padding-left: 3%;
+    padding-right: 3%;
 }
 
 /* .function-btns {
