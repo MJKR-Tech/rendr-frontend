@@ -57,23 +57,30 @@ function Upload({ children }) {
   return (
     <div className="wrapper">
       <div className="outer-container">
-        <div style={{display:'block'}}>
-          <div className="container">
-            <div className="template-upload">
-              <input type="file" onChange={uploadTemplates} accept=".xls,.xlsx" />
-              <p style={{margin:"auto"}}>Upload new templates</p>
-            </div>
+        {/* <div style={{display:'block'}}>
+          <div className="callout" style={{padding: '3px', background:'white', margin:'30px 50px'}}>
+            <h2 className="message">Fill in the form to render your report!</h2>
           </div>
-          <div className="container">
-            <div className="file-upload">
-              <input type="file" multiple onChange={uploadFiles} accept=".json" />
-              <p style={{margin:"auto"}}>Upload your JSON files</p>
+          <div style={{display:'flex'}}> */}
+            <div style={{display:'block'}}>
+              <div className="container">
+                <div className="template-upload">
+                  <input type="file" onChange={uploadTemplates} accept=".xls,.xlsx" />
+                  <p style={{margin:"auto"}}>Upload new templates</p>
+                </div>
+              </div>
+              <div className="container">
+                <div className="file-upload">
+                  <input type="file" multiple onChange={uploadFiles} accept=".json" />
+                  <p style={{margin:"auto"}}>Upload your JSON files</p>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-        <div className="container">
-          <CheckForm dataArr={dataArr} />
-        </div>
+            <div className="container">
+              <CheckForm dataArr={dataArr} />
+            </div>
+          {/* </div>
+        </div> */}
       </div>
     </div>
   );

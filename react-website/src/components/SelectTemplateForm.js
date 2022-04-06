@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React from 'react'
 import { FormGroup, CardBody } from 'reactstrap';
 
@@ -16,7 +17,7 @@ export default function SelectTemplateForm(props) {
                                 <div style={{marginLeft: '10px'}} check="false">
                                     <input style={{fontSize: '15px'}} {...props.register("template", {required: true})} 
                                             type="radio" value={tempId} />
-                                    {"\xa0\xa0\xa0\xa0" + temp.templateName}
+                                    <p className='template-name'>{temp.templateName}</p>
                                 </div>
                             </div>
                         );

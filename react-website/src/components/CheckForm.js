@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {Redirect} from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import { Button, Form, CardBody } from 'reactstrap';
+import { Form } from 'reactstrap';
 import axios from 'axios';
 import TemplateForm from './TemplateForm';
 import FormFileNameInput from './FormFileNameInput';
@@ -125,14 +125,17 @@ function CheckForm(props) {
                         <JsonFileList dataArr={props.dataArr} />
                     </div>
                     <FormFileNameInput register={register} errors={errors} />
-                    <Button className="green-submit" type='submit'>Submit</Button>
+                    <button className="green-submit" type='submit'>Submit</button>
                 </Form>
-                {/* {submitted ? <Redirect to="/form-submitted" /> : <div />} */}
+                {submitted ? <Redirect to="/form-submitted" /> : <div />}
             </>
         );
     } else {
         return (
-            <TemplateForm templates={templates} register={register} errors={errors} />
+            <>
+                <TemplateForm templates={templates} register={register} errors={errors} />
+            </>
+
         );
     }
 };

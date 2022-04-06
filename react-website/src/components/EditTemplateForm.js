@@ -10,12 +10,35 @@ export default function EditTemplateForm(props) {
     const history = useHistory();
     const baseSite = "http://localhost:8080";
     const apiPath = "/api/v1";
-    const generatePath = "/deleteTemplate/";
-    const generateURL = baseSite + apiPath + generatePath;
+    const generateURL = baseSite + apiPath;
+
+    // const getTemplate = (id, name) =>
+    //     axios.get(baseSite + apiPath + "/downloadTemplate", 1)
+    //     .then((response) => {
+    //         let url = window.URL.createObjectURL(new Blob([response.data]));
+    //         let link = document.createElement('a');
+    //         link.href = url;
+    //         link.setAttribute('download', `${"sample"}.xlsx`);
+    //         document.body.appendChild(link);
+    //         link.click();
+    //     });
+    // }
+
+    const getTemplate = (temp) => {
+        axios.post(generateURL + "/downloadTemplate", temp.templateId)
+        .then((response) => {
+            let url = window.URL.createObjectURL(new Blob([response.data]));
+            let link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', `${temp.templateName}.xlsx`);
+            document.body.appendChild(link);
+            link.click();
+        })
+    }
 
     const onSubmit = (formData) => {
         console.log(formData);
-        axios.delete(generateURL + formData.templates)
+        axios.delete(generateURL + "/deleteTemplate/" + formData.templates)
             .then((response) => {
                 // console.log(response)
                 history.go(0);
@@ -35,7 +58,9 @@ export default function EditTemplateForm(props) {
                                 <div style={{marginLeft: '10px'}} check="false">
                                     <input style={{fontSize: '15px'}} {...register("templates", {required: true})} 
                                             type="checkbox" id="templates" value={tempId} />
-                                    {"\xa0\xa0\xa0\xa0" + temp.templateName}
+                                    <a className="template-name clickable" href="#" id={tempId}
+                                            onClick={((e) => getTemplate(temp))}>{temp.templateName}
+                                    </a>
                                 </div>
                             </div>
                         );
@@ -53,11 +78,10 @@ export default function EditTemplateForm(props) {
             <CardBody>
                 <FormGroup>
                     <EditTemplateForm />
-                    {console.log(errors)}
                     {errors.templates && <div className="invalid-feedback" style={{marginLeft:'10px'}}>
                         Please select at least one template for deletion
                     </div>}
-                    <button type="submit" style={{float: "right", margin: "0px 5px 10px 0px"}} 
+                    <button type="submit" style={{float: "right", margin: "7px 5px 10px 0px"}} 
                             className="btn btn-danger btn-sm">Delete</button>
                 </FormGroup>
             </CardBody>
