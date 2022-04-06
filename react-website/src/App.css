@@ -24,20 +24,60 @@
   top: 0;
 }
 
-.card, .round-borders {
+.card.round-borders {
   min-width: 400px;
   border-radius: 10px;
   box-shadow: 0 2px 4px 0 rgba(0,0,0,.2);
   margin-bottom: 20px;
-
 }
+
+.card.round-borders.white-border {
+  border: 4px solid white;
+}
+
+.card.round-borders.blue-border {
+  border: 4px solid #459ec4;
+}
+
+.card-header.rounded-top-corners {
+  background: #E8EAED;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  border-bottom: none;
+}
+
+.card-header.blue-header {
+  background: #459ec4;
+  color: white;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  border-bottom: none;
+}
+
+/* .modal-content {
+  border-radius: 13px;
+  margin-bottom: 0;
+} */
+
+/* .modal-header, .blue-background {
+  background-color: #459ec4;
+  color: white;
+  
+  padding: 10px 20px;
+}
+
+.modal-body {
+  display: block;
+  height: auto;
+  padding-left: 30px;
+} */
 
 .wrapper {
   padding-left: 12vw;
   /* justify-content: center; */
   align-items: center;
-  height: 100vh;
-  max-height: 100vh;
+  height: calc(100vh - 10px);
+  /* max-height: 100vh; */
   display: flex;
 }
 
@@ -79,7 +119,7 @@
   justify-content: center;
   align-items: center;
   overflow: hidden;
-  background-image: linear-gradient(to bottom, #70e000 50%, #fff 50%);
+  background-image: linear-gradient(to bottom, #8DCC34 50%, #fff 50%);
   border: 4px solid #fff;
   background-size: 100% 200%;
   transition: all 1s;
@@ -90,8 +130,8 @@
 
 .green-submit:hover {
   background-position: 0 -100%;
-  color: #70e000;
-  border: 4px solid #70e000;
+  color: #8DCC34;
+  border: 4px solid #8DCC34;
 }
 
 .template-upload {
@@ -124,6 +164,15 @@
 .template-upload:hover {
   background-position: 0 -100%;
   color: #459ec4;
+}
+
+button.edit-btn {
+  width: auto;
+  display:"inline-block";
+}
+
+button.edit-btn.white {
+  color: white;
 }
 
 .container .file-upload {
