@@ -16,18 +16,29 @@
   font-size: 3rem;
 }
 
+.rendr-background::before {
+  content: "";
+  background: url('/images/BG3.jpg'); 
+  opacity: 0.7;
+  background-size: cover;
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+  opacity: 0.70;
+  filter: grayscale(60%);
+}
+
 .rendr-background {
-  background: url('/images/BG1.jpg'); 
   height: calc(100vh - 10px);
   margin-top: -70px;
-  background-size: cover;
-  top: 0;
 }
 
 .card.round-borders {
   min-width: 400px;
   border-radius: 10px;
-  box-shadow: 0 2px 4px 0 rgba(0,0,0,.2);
+  box-shadow: 0 3px 6px 0 rgba(0,0,0,.2);
   margin-bottom: 20px;
 }
 
@@ -73,8 +84,8 @@
 } */
 
 .wrapper {
-  padding-left: 12vw;
-  /* justify-content: center; */
+  /* padding-left: 12vw; */
+  justify-content: center;
   align-items: center;
   height: calc(100vh - 10px);
   /* max-height: 100vh; */
@@ -150,6 +161,7 @@
   color: #fff;
   font-size: 20px;
   text-align: center;
+  box-shadow: 0 3px 6px 0 rgba(0,0,0,.2);
 }
 
 .template-upload input[type='file'] {
@@ -195,6 +207,7 @@ button.edit-btn.white {
   color: #459ec4;
   font-size: 20px;
   text-align: center;
+  box-shadow: 0 3px 6px 0 rgba(0,0,0,.2);
 }
 .container .file-upload input[type='file'] {
   /* height: 200px;

@@ -33,6 +33,7 @@ function CheckForm(props) {
     }, []);
 
     const submitForm = (json, outputFilename) => {
+        console.log(JSON.stringify(json))
         axios.post(generateURL, json, {
             method: 'POST',
             headers: {
@@ -126,7 +127,7 @@ function CheckForm(props) {
                     <FormFileNameInput register={register} errors={errors} />
                     <Button className="green-submit" type='submit'>Submit</Button>
                 </Form>
-                {submitted ? <Redirect to="/form-submitted" /> : <div />}
+                {/* {submitted ? <Redirect to="/form-submitted" /> : <div />} */}
             </>
         );
     } else {
