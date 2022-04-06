@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import {Redirect} from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import { Button, Form, FormGroup, CardBody } from 'reactstrap';
+import { Button, Form, CardBody } from 'reactstrap';
 import axios from 'axios';
+import TemplateForm from './TemplateForm';
+import FormFileNameInput from './FormFileNameInput';
+import JsonFileList from './JsonFileList';
 
 function CheckForm(props) {
     const [submitted, setSubmitted] = useState(false);
     const { register, handleSubmit, formState: { errors } } = useForm();
     const [templates, setTemplates] = useState([]);
-    // const [, updateState] = useState();
-    // const forceUpdate = useCallback(() => updateState({}), []);
     
     const baseSite = "http://localhost:8080";
     const apiPath = "/api/v1";
@@ -23,9 +24,6 @@ function CheckForm(props) {
                 var newTemplates = [];
                 newTemplates.push(res.data);
                 setTemplates(newTemplates);
-                // forceUpdate();
-                // console.log(templates);
-                // console.log('refreshed');
             }).catch((err) => {
                 console.log(err);
             });
@@ -35,6 +33,7 @@ function CheckForm(props) {
     }, []);
 
     const submitForm = (json, outputFilename) => {
+        console.log(JSON.stringify(json))
         axios.post(generateURL, json, {
             method: 'POST',
             headers: {
@@ -64,9 +63,9 @@ function CheckForm(props) {
             "headers": jsonData.columns,
             "rows": jsonData.rows
         }};
-      };
+    };
     
-      const readUploadedFileAsText = (inputFile) => {
+    const readUploadedFileAsText = (inputFile) => {
         const temporaryFileReader = new FileReader();
       
         return new Promise((resolve, reject) => {
@@ -80,9 +79,9 @@ function CheckForm(props) {
           };
           temporaryFileReader.readAsText(inputFile);
         });
-      };
+    };
     
-      const generateDataArr = async (files) => {
+    const generateDataArr = async (files) => {
         var dataArr = {};
         for (var i = 0; i < files.length; i++) {
           var file = files[i];
@@ -91,7 +90,7 @@ function CheckForm(props) {
           dataArr[datum.name] = datum.data;
         };
         return dataArr;
-      };
+    };
 
     const onSubmit = async (formData) => {
         console.log(formData.template);
@@ -115,108 +114,25 @@ function CheckForm(props) {
         }
     };
 
-    function JsonNames(data) {
-        var names = [];
-        for (let i = 0; i < data.data.length; ++i) {
-            let fileName = data.data[i].name
-            names.push(
-                <li key={fileName} style={{fontSize: '15px'}}>{fileName}</li>
-            );
-        }
-        return names;
-    }
-
-    const required = "This field is required";
-    const maxLength = "Your input exceed maximum length of 255 characters";
-    const pattern = "Your file name should only use alphanumeric characters, \xa0\xa0'\xa0-\xa0'\xa0\xa0 , \xa0\xa0'\xa0_\xa0'\xa0\xa0 , \xa0\xa0'\xa0.\xa0'\xa0\xa0 and space"
-    const errorMessage = error => {
-        return <div className="invalid-feedback">{error}</div>;
-    }
 
     if (props.dataArr) {
         return (
             <>
                 <Form onSubmit={handleSubmit(onSubmit)}>
-                    <div className="card round-borders blue-border ">
-                        <p className="card-header" style={{fontSize:"20px"}}>Select your template:</p>
-                        <CardBody>
-                            <FormGroup>
-                                {
-                                    templates.map(templ => {
-                                        let temps = [];
-                                        for (let i = 0; i < templ.length; ++i) {
-                                            let temp = templ[i];
-                                            let tempId = temp.templateId
-                                            temps.push(
-                                                <div key={temp.templateId}>
-                                                    <div style={{marginLeft: '10px'}} check="false">
-                                                        <input style={{fontSize: '15px'}} {...register("template")} type="radio" value={tempId} required />
-                                                        {"\xa0\xa0\xa0\xa0" + temp.templateName}
-                                                    </div>
-                                                </div>
-                                            );
-                                        };
-                                        return (
-                                            temps
-                                        );
-                                    })
-                                }
-                            </FormGroup>
-                        </CardBody>
+                    <TemplateForm templates={templates} register={register} errors={errors} />
+                    <div className="card round-borders white-border">
+                        <p className="card-header rounded-top-corners" style={{fontSize:"20px"}}>Here are the files you have submitted:</p>
+                        <JsonFileList dataArr={props.dataArr} />
                     </div>
-                    <div className="card round-borders blue-border ">
-                        <p className="card-header" style={{fontSize:"20px"}}>Here are the files you have submitted:</p>
-                        <CardBody>
-                            <ul>
-                                <JsonNames data={props.dataArr} />
-                            </ul>
-                        </CardBody>
-                    </div>
-                    <div className="file-name-input">
-                        <input type='text' className="form-control" placeholder='Name Your File e.g. Report 1' name="fileName"
-                        {...register("fileName", {required:true, pattern: /^[0-9a-zA-Z_\-. ]+$/, maxLength:255})} />
-                        {errors.fileName && errors.fileName.type === "required" && errorMessage(required)}
-                        {errors.fileName && errors.fileName.type === "maxLength" && errorMessage(maxLength)}
-                        {errors.fileName && errors.fileName.type === "pattern" && errorMessage(pattern)}
-                    </div>
-                    <Button className="green-submit" type='submit'>
-                        Submit
-                    </Button>
+                    <FormFileNameInput register={register} errors={errors} />
+                    <Button className="green-submit" type='submit'>Submit</Button>
                 </Form>
-                {submitted ? <Redirect to="/form-submitted" /> : <div />}
+                {/* {submitted ? <Redirect to="/form-submitted" /> : <div />} */}
             </>
         );
     } else {
         return (
-            <div className="card round-borders blue-border ">
-                <Form>
-                    <p className="card-header" style={{fontSize:"20px"}}>Select your template:</p>
-                    <CardBody>
-                        <FormGroup>
-                            {
-                                templates.map(templ => {
-                                    let temps = [];
-                                    for (let i = 0; i < templ.length; ++i) {
-                                        let temp = templ[i];
-                                        let tempId = temp.templateId
-                                        temps.push(
-                                            <div key={temp.templateId}>
-                                                <div style={{marginLeft: '10px'}} check="false">
-                                                    <input style={{fontSize: '15px'}} {...register("template")} type="radio" value={tempId} required />
-                                                    {"\xa0\xa0\xa0\xa0" + temp.templateName}
-                                                </div>
-                                            </div>
-                                        );
-                                    };
-                                    return (
-                                        temps
-                                    );
-                                })
-                            }
-                        </FormGroup>
-                    </CardBody>
-                </Form>
-            </div>
+            <TemplateForm templates={templates} register={register} errors={errors} />
         );
     }
 };
