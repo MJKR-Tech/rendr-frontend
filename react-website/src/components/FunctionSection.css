@@ -59,7 +59,7 @@ function-container {
 }
 
 .content {
-    color: #459ec4;
+    color: #000000;
     font-size: auto;
     display: flex;
     justify-content: left;
@@ -70,7 +70,7 @@ function-container {
 }
 
 .subContentL {
-    color: #459ec4;
+    color: #000000;
     font-size: auto;
     display: flex;
     justify-content: left;
@@ -83,7 +83,7 @@ function-container {
 }
 
 .subContentR {
-    color: #459ec4;
+    color: #000000;
     font-size: auto;
     display: flex;
     justify-content: right;
@@ -96,7 +96,7 @@ function-container {
 }
 
 .subContent {
-    color: #459ec4;
+    color: #000000;
     font-size: auto;
     display: flex;
     justify-content: center;
