@@ -3,26 +3,15 @@ import { Form, FormGroup, CardBody } from 'reactstrap';
 import { useForm } from 'react-hook-form';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
+import getBaseURL from './Configurations';
 
 export default function EditTemplateForm(props) {
 
     const { register, handleSubmit, formState: { errors } } = useForm();
     const history = useHistory();
-    const baseSite = "http://localhost:8080";
+    const baseSite = getBaseURL();
     const apiPath = "/api/v1";
     const generateURL = baseSite + apiPath;
-
-    // const getTemplate = (id, name) =>
-    //     axios.get(baseSite + apiPath + "/downloadTemplate", 1)
-    //     .then((response) => {
-    //         let url = window.URL.createObjectURL(new Blob([response.data]));
-    //         let link = document.createElement('a');
-    //         link.href = url;
-    //         link.setAttribute('download', `${"sample"}.xlsx`);
-    //         document.body.appendChild(link);
-    //         link.click();
-    //     });
-    // }
 
     const getTemplate = (temp) => {
         axios.post(generateURL + "/downloadTemplate", 
@@ -49,7 +38,6 @@ export default function EditTemplateForm(props) {
         console.log(formData);
         axios.delete(generateURL + "/deleteTemplate/" + formData.templates)
             .then((response) => {
-                // console.log(response)
                 history.go(0);
             });
     }

@@ -19,7 +19,7 @@ function LandingPage() {
                     </p>
                     <Link to="/app" className="blue-button">Click to Start Rendering</Link>
                   </div>
-                  <img src="/images/front-page-image.png" className="front-page-image" />
+                  <img src="/images/front-page-image.png" className="front-page-image" alt="front-page"/>
                   
                 </div>
             </div>

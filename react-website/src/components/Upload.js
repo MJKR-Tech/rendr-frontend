@@ -2,16 +2,15 @@ import axios from "axios";
 import React, { useState } from "react";
 import { useHistory } from 'react-router-dom';
 import CheckForm from "./CheckForm";
+import getBaseURL from './Configurations';
 
 function Upload({ children }) {
   
   const [dataArr, setData] = useState(false);
-  const baseSite = "http://localhost:8080";
+  const baseSite = getBaseURL();
   const apiPath = "/api/v1";
   const generatePath = "/uploadTemplate";
   const generateURL = baseSite + apiPath + generatePath;
-  // const [reset, setReset] = useState(false);
-  // const [uploadedTemplate, setUploadedTemplate] = useState(false);
   const history = useHistory();
 
   const updateData = async (files) => {
@@ -57,11 +56,6 @@ function Upload({ children }) {
   return (
     <div className="wrapper">
       <div className="outer-container">
-        {/* <div style={{display:'block'}}>
-          <div className="callout" style={{padding: '3px', background:'white', margin:'30px 50px'}}>
-            <h2 className="message">Fill in the form to render your report!</h2>
-          </div>
-          <div style={{display:'flex'}}> */}
             <div style={{display:'block'}}>
               <div className="container">
                 <div className="template-upload">
@@ -79,8 +73,6 @@ function Upload({ children }) {
             <div className="container">
               <CheckForm dataArr={dataArr} />
             </div>
-          {/* </div>
-        </div> */}
       </div>
     </div>
   );

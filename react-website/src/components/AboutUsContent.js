@@ -85,8 +85,8 @@ function FunctionSection() {
           </div>
           <div className='subContent'>
             <img className='imageR' src='/images/uploadTemplate.png' alt='Upload Template' width="500"/>
-            <img className='imageC' src='/images/arrow.png' width="60"/>
-            <img className='imageL' src='/images/uploadTemplate2.png' width="500"/>
+            <img className='imageC' src='/images/arrow.png' alt='arrow' width="60"/>
+            <img className='imageL' src='/images/uploadTemplate2.png' alt='Upload Template 2' width="500"/>
           </div>
           <div className='content'>
             <div>
@@ -105,8 +105,8 @@ function FunctionSection() {
           </div>
           <div className='subContent'>
             <img className='imageR' src='/images/uploadJson.png' alt='Upload Template' width="500"/>
-            <img className='imageC' src='/images/arrow.png' width="60"/>
-            <img className='imageL' src='/images/uploadJson2.png' width="500"/>
+            <img className='imageC' src='/images/arrow.png' alt='arrow' width="60"/>
+            <img className='imageL' src='/images/uploadJson2.png' alt='Upload Template 2' width="500"/>
           </div>
           <div className='content'>
             <h5>
@@ -115,8 +115,8 @@ function FunctionSection() {
           </div>
           <div className='subContent'>
             <img className='imageR' src='/images/submitDownload.png' alt='Upload Template' width="500"/>
-            <img className='imageC' src='/images/arrow.png' width="60"/>
-            <img className='imageL' src='/images/final.png' width="500"/>
+            <img className='imageC' src='/images/arrow.png' alt='arrow' width="60"/>
+            <img className='imageL' src='/images/final.png' alt='Upload Template 2' width="500"/>
           </div>
       </div>
     </div>

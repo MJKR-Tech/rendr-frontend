@@ -6,13 +6,14 @@ import axios from 'axios';
 import TemplateForm from './TemplateForm';
 import FormFileNameInput from './FormFileNameInput';
 import JsonFileList from './JsonFileList';
+import getBaseURL from './Configurations';
 
 function CheckForm(props) {
     const [submitted, setSubmitted] = useState(false);
     const { register, handleSubmit, formState: { errors } } = useForm();
     const [templates, setTemplates] = useState([]);
     
-    const baseSite = "http://localhost:8080";
+    const baseSite = getBaseURL();
     const apiPath = "/api/v1";
     const generatePath = "/generateData";
     const generateURL = baseSite + apiPath + generatePath;
