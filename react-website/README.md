@@ -16,3 +16,11 @@ From the cloned backend repository, navigate to RendrApplication.java and press 
 ### Run the Frontend
 
 After you have the backend running, go to the frontend and in the command line terminal, type `cd react-website` to change the directory to react-website. Then use the script `npm start` to start the frontend. A webpage should pop up and the application should be running.
+
+### Run with docker
+
+Step 1: Open a terminal and go to the react-website directory
+
+Step 2: Pull the docker image for the frontend using `docker pull mgrl22/rendr-frontend`
+
+Step 3: run `docker run -p 3000:3000 --name rendr-frontend mgrl22/rendr-frontend`
