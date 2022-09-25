@@ -1,0 +1,8 @@
+version: "3.8"
+
+services:
+  app:
+    container_name: rendr-frontend
+    image: rendr-frontend
+    build:
+      target: development
