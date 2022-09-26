@@ -24,3 +24,5 @@ Step 1: Open a terminal and go to the react-website directory
 Step 2: Pull the docker image for the frontend using `docker pull mgrl22/rendr-frontend`
 
 Step 3: run `docker run -p 3000:3000 --name rendr-frontend mgrl22/rendr-frontend`
+
+Step 4: run `http://localhost:3000/` in any browser
