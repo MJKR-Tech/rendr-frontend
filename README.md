@@ -1,1 +1,1 @@
-# rendr-frontend
+Access the readme in [this](react-website) repo
